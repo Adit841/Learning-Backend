@@ -1,9 +1,16 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const dns = require('dns');
 
-async function connectDB(){
-    await mongoose.connect("mongodb+srv://yt-backend:yvPcHaahhCfw7Rlv@yt-complete-backend.goukrxe.mongodb.net/?appName=yt-complete-backend/project-one")
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
-    console.log("Connected to db")
+async function connectDB() {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('db is connected');
+    } catch (err) {
+        console.error('DB connection failed:', err.message);
+        process.exit(1);
+    }
 }
 
 module.exports = connectDB;
